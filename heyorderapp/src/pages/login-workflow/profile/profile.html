@@ -1,0 +1,73 @@
+<ion-header no-border>
+  <ion-navbar transparent >
+  </ion-navbar>
+</ion-header>
+
+<ion-content fullscreen="true" no-padding>
+
+  <div class="profile-box">
+    <div class="profile-box-background"></div>
+    <div text-center>
+      <img [src]="profile.pic" class="edit-avatar pop-in" alt="" onerror="this.src='./assets/imgs/avatar.png'">
+      <p class="name-text">{{profile.name}}</p>
+    </div>
+  </div>
+
+  <ion-card padding>
+    <ion-row>
+      <ion-col text-right>
+        <ion-icon right name="ios-create" icon-end (click)="isEditing=true"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-list>
+      <ion-item>
+        <h2>E-mail</h2>
+        <p>{{profile.email}}</p>
+      </ion-item>
+      <!------------------------------------------------------------------------------------------------------------------>
+      <ion-item *ngIf="!isEditing">
+        <h2>Nome</h2>
+        <p>{{profile.name}}</p>
+      </ion-item>
+
+      <ion-item *ngIf="isEditing">
+        <ion-label floating>Nome</ion-label>
+        <ion-input tappable type="text" [(ngModel)]="profile.name"></ion-input>
+      </ion-item>
+
+      <!------------------------------------------------------------------------------------------------------------------>
+
+      <ion-item *ngIf="!isEditing">
+        <h2>Celular</h2>
+        <p>{{profile.phone}}</p>
+      </ion-item>
+
+      <ion-item *ngIf="isEditing">
+        <ion-label floating>Celular</ion-label>
+        <ion-input tappable type="text" [(ngModel)]="profile.phone"></ion-input>
+      </ion-item>
+
+      <!------------------------------------------------------------------------------------------------------------------>
+
+      <ion-item *ngIf="isEditing">
+        <ion-label floating>Imagem de perfil</ion-label>
+        <ion-input tappable type="text" [(ngModel)]="profile.pic"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="isEditing">
+        <button ion-button color="secondary" (click)="saveProfileInfo()">
+          Salvar
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-row>
+    <ion-col>
+      <button ion-button block full color="danger" (click)="logout()">
+        Sair
+      </button>
+    </ion-col>
+
+  </ion-row>
+</ion-content>

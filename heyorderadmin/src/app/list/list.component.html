@@ -1,0 +1,35 @@
+<ul class="nav nav-tabs">
+
+  <li class="nav-item">
+    <a class="nav-link"
+       routerLinkActive="active"
+       routerLink="/restaurant">Restaurant</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"
+       routerLinkActive="active"
+       routerLink="/cart">Cart</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"
+       routerLinkActive="active"
+       routerLink="/push">Push Notification</a>
+  </li>
+  <li class="nav-item" *ngIf="isSuperAdmin">
+    <a class="nav-link"
+       routerLinkActive="active"
+       routerLink="/register">Add Admin Accounts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link"
+       routerLinkActive="active"
+       routerLink="/data">Data Management</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+

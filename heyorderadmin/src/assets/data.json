@@ -1,0 +1,154 @@
+{
+  "category" : 
+  [ 
+    {
+      "id": 1,
+      "description" : "Dragon stone",
+      "imgBg" : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Gaztelugatxe_4199995260.jpg/1280px-Gaztelugatxe_4199995260.jpg",
+      "name" : "Dragon Stone",
+      "type" : "place"
+    }, {
+      "id": 2,
+      "description" : "La Habana",
+      "imgBg" : "https://upload.wikimedia.org/wikipedia/commons/4/41/Morro_habana.jpg",
+      "name" : "Havana",
+      "type" : "place"
+    }, {
+      "id": 3,
+      "description" : "Dublin",
+      "imgBg" : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Dublin_-_Father_Mathew_Bridge_-_110508_182542.jpg/1280px-Dublin_-_Father_Mathew_Bridge_-_110508_182542.jpg",
+      "name" : "Dublin",
+      "type" : "place"
+    }, {
+      "id": 4,
+      "description" : "King's Landing",
+      "imgBg" : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Dubrovnik_from_walls.JPG/1280px-Dubrovnik_from_walls.JPG",
+      "name" : "King's Landing",
+      "type" : "place"
+    }, {
+      "id": 5,
+      "description":"Beyond the Wall",
+      "imgBg" : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/OeraefajoekullMorning.jpg/1280px-OeraefajoekullMorning.jpg",
+      "name" : "Beyond the Wall",
+      "type" : "place"
+    }, {
+      "id": 6,
+      "description" : "Selection of clothing",
+      "imgBg" : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Camino_a_la_reuni%C3%B3n_con_con_el_Presidente_de_la_Rep%C3%BAblica_Popular_China%2C_el_Excmo._Sr._Xi_Jinping._%288627337472%29.jpg/800px-Camino_a_la_reuni%C3%B3n_con_con_el_Presidente_de_la_Rep%C3%BAblica_Popular_China%2C_el_Excmo._Sr._Xi_Jinping._%288627337472%29.jpg",
+      "name" : "Women's clothing",
+      "type" : "lorem"
+    }, {
+      "id": 7,
+      "description" : "Freshly pizza baked for your perfect lunch.",
+      "imgBg" : "https://mprmdemo.getmotopress.com/wp-content/uploads/2016/11/pexels-photo-65132-800x600.jpg",
+      "name" : " Lunch",
+      "type" : "restaurant"
+    }, {
+      "id": 8,
+      "description" : "Discover fusion cuisine.",
+      "imgBg" : "https://dyaddemo.files.wordpress.com/2011/07/photo-1444228425018-ff8535a55c93.jpeg?w=800&h=400&crop=1",
+      "name" : "Dinning",
+      "type" : "restaurant"
+    }, {
+      "id": 9,
+      "description" : "Selection of classic coffee favorites",
+      "imgBg" : "https://sapordemo.files.wordpress.com/2011/07/restaurant-coffee-cup-cappuccino.jpg?w=800&h=400",
+      "name" : "Coffee",
+      "type" : "restaurant"
+    }, {
+      "id": 10,
+      "description" : "Desserts & Delizie",
+      "imgBg" : "http://mprmdemo.getmotopress.com/wp-content/uploads/2016/03/orange-chocolate-800x600.jpg",
+      "name" : "Dessert",
+      "type" : "restaurant"
+    } 
+  ],
+  "chart" : 
+  [
+    {
+      "id": 1,
+      "country" : "Indonesia",
+      "view" : 1900
+    }, {
+      "id": 2,
+      "country" : "Brazil",
+      "view" : 930
+    }, {
+      "id": 3,
+      "country" : "Alemania",
+      "view" : 1200
+    }, {
+      "id": 4,
+      "country" : "Portugal",
+      "view" : 300
+    }, {
+      "id": 5,
+      "country" : "Netherlands",
+      "view" : 800
+    }, {
+      "id": 6,
+      "country" : "Canada",
+      "view" : 1400
+    } 
+  ],
+  "gallery" : 
+  [ 
+    {
+      "id": 1,
+      "name" : "Additional Pro VersionAdditional Pro Version Features Features",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 2,
+      "name" : "amsterdam",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 3,
+      "name" : "san Francisco",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 4,
+      "name" : "madison",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 5,
+      "name" : "Additional Pro Version Features",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 6,
+      "name" : "queen",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 7,
+      "name" : "nin",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 8,
+      "name" : "Additional Pro Version Features",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 9,
+      "name" : "test",
+      "url" : "https://unsplash.it/950/800/?random"
+    }, {
+      "id": 10,
+      "name" : "test",
+      "url" : "https://unsplash.it/950/800/?random"
+    } 
+  ],
+  "profile" : 
+  [ 
+     {
+      "id": 2,
+      "aboutMe" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "company" : "Atari",
+      "email" : "Josh@atary.com",
+      "follower" : 40,
+      "following" : 233,
+      "name" : "John Doe",
+      "phone" : "0234234234",
+      "position" : "CEO",
+      "post" : 43,
+      "pepe": 123
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+tab-push {
+  .wide-popover > .popover {
+    max-width: 500px !important;
+    width: 500px;
+    max-height: 350px;
+  }
+
+  div.no-arrow .bs-popover-left .arrow {
+    visibility: hidden !important;
+  }
+}
+.over-limit-danger {
+  color: red;
+}
+.push-wide-modal {
+  max-width: 800px !important;
+  width: 800px !important;
+  background-color: #fafafa;
+}

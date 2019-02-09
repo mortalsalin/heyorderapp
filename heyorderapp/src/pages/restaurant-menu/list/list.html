@@ -1,0 +1,31 @@
+
+<ion-header>
+    <ion-navbar color="pink">
+        <button ion-button menuToggle color="light">
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title color="light">{{name}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content >
+    <div class="blury-background"></div>
+  <div>
+      <h2 *ngIf="items.length == 0" padding>Não existem registros.</h2>
+      <ion-grid *ngIf="items.length > 0">
+          <ion-row wrap>
+            <ion-col col-6  tappable  *ngFor="let item of items" (click)="goToDetail(item)" color="gray">
+
+              <ion-card class="thumbnail" >
+                  <div class="thumbnail-bg" [ngStyle]="{'background-image': 'url(' + item.imgSmall+ ')'}">
+                      <h2 class="thumbnail-title"> {{item.name}} <ion-badge color="pink">R$ {{item.price}}</ion-badge></h2>
+
+                  </div>
+              </ion-card>
+
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+  </div>
+
+</ion-content>

@@ -1,0 +1,26 @@
+<ion-header no-border>
+  <ion-navbar color="pink">
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="login-container">
+    <form [formGroup]="resetPasswordForm" (submit)="resetPassword()" novalidate>
+
+      <ion-item class="border-bottom">
+        <ion-input tappable formControlName="email" type="email" placeholder="Your email address" [class.invalid]="!resetPasswordForm.controls.email.valid && resetPasswordForm.controls.email.dirty"></ion-input>
+      </ion-item>
+
+      <ion-item class="error-message">
+        <p *ngIf="!resetPasswordForm.controls.email.valid  && resetPasswordForm.controls.email.dirty">Informe um email válido.</p>
+      </ion-item>
+
+      <button ion-button block type="submit">
+        Resetar sua senha
+      </button>
+
+    </form>
+
+  </div>
+</ion-content>

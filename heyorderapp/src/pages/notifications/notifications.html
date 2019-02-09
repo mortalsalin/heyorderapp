@@ -1,0 +1,29 @@
+<ion-header>
+
+  <ion-navbar color="pink">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Promoções</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card *ngFor="let n of notifications">
+    <ion-card-header>
+      <strong style="font-size:1.2em">{{n.landingTitle}}</strong>
+    </ion-card-header>
+    <ion-card-content>
+      <div [innerHtml]="n.landingText">
+      </div>
+
+      <div padding text-center>
+        <div *ngIf="!!n.runStartDate">Inicio: {{n.runStartDate.formatted}}</div>
+        <div *ngIf="!!n.runEndDate">Fim: {{n.runEndDate.formatted}}</div>
+      </div>
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>

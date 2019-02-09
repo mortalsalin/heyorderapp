@@ -1,0 +1,5 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'variables'; 
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import './app/list/tab/push/tab.push.component';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";

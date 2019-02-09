@@ -1,0 +1,258 @@
+<div *ngIf="showCategories">
+  <form class="form-inline">
+ 
+    <div class="form-group">
+      <input name="searchTerm" type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm" (ngModelChange)="search()" style="width:400px;">
+    </div>
+    <div class="form-group" style="padding:10px;">
+      <span data-toggle="tooltip">
+        <button class=" btn btn-primary form-control" (click)="launchApp()">Open ionic app</button>
+      </span>
+</div>
+  </form>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>
+          <button type="button" class="btn btn-danger btn-lg" (click)="openModal(template, item, true)">
+            <i class="fa fa-plus"></i>
+          </button>
+        </td>
+        <td class="font-weight-bold">Name</td>
+        <td class="font-weight-bold">Description</td>
+        <td class="font-weight-bold">Show</td>
+        <td class="font-weight-bold">Type</td>
+        <td class="font-weight-bold">Total</td>
+        <td class="font-weight-bold" style="max-width:200px;">Img Bg</td>
+        <td class="font-weight-bold">Thumnail</td>
+      </tr>
+      <tr *ngFor="let item of items">
+        <td class='text-xs-center'>
+          <div ngbDropdown>
+            <button class="btn btn-primary btn-sm" id="options" ngbDropdownToggle (click)="getSubCategoryTotal(item); currentItem = item;">
+              <i class="fa fa-cog"></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="options">
+              <a class="dropdown-item" data-toggle="modal" (click)="openModal(template, item, false)">
+                <i class="fa fa-pencil"></i> Edit
+              </a>
+              <a class="dropdown-item"
+                 [ngbPopover]="confirmation"
+                 #p="ngbPopover"
+                 triggers="manual"
+                 (click)="p.open(); pp = p;"
+                 placement="right"
+                 popoverTitle="Are you sure?">
+                <i class="fa fa-trash-o"></i> Delete
+              </a>
+
+              <a class="dropdown-item" data-toggle="modal" (click)="getSubCategory(item); currentItem = item;">
+                <i class="fa fa-cogs"></i> Manage sub-items ({{subsTotal}})
+              </a>
+            </div>
+          </div>
+        
+        </td>
+        <td> {{ item.name }} </td>
+        <td style="max-width:200px;"> {{ item.description }} </td>
+        <td> {{ item.show }} </td>
+        <td> {{ item.type }} </td>
+        <td> {{ item.total }} </td>
+        <td style="max-width:200px;overflow-x: scroll;"> {{ item.imgBg }} </td>
+        <td><a target="_blank" [href]="item.imgBg"> <img [src]="item.imgBg" width="100" onerror="this.src='./assets/no-image-found.jpg'" /> </a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Edit Modal -->
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left" *ngIf="!adding">Edit Restaurant</h4>
+      <h4 class="modal-title pull-left" *ngIf="adding">Add New Restaurant</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #heroForm="ngForm">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" [(ngModel)]='model.name' name='name'>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" [(ngModel)]='model.description' name="description" style="width:100%; height:215px;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="model.show" name="show"> Show
+          </label>
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <input type="text" class="form-control" [(ngModel)]='model.type' disabled="disabled" name='type'>
+         
+        </div>
+        <div class="form-group">
+          <label>Total</label>
+          <input type="text" class="form-control" [(ngModel)]='model.total' name='total'>
+        </div>
+        <div class="form-group">
+          <label>Imagen Background</label>
+          <input type="text" class="form-control" [(ngModel)]='model.imgBg' name='imgBg'>
+          <img [src]="model.imgBg" width="100" style="margin:20px;" onerror="this.src='./assets/no-image-found.jpg'" />
+        </div>
+        <button type="submit" (click)="editOrAddRecord(model, false)" *ngIf="!adding" class="btn btn-primary float-right">Save</button>
+        <button type="submit" (click)="editOrAddRecord(model, true)" *ngIf="adding" class="btn btn-success float-right">Add</button>
+      </form>
+    </div>
+  </ng-template>
+
+  <!-- Confirmation Delete Modal -->
+  <ng-template #confirmation>
+    <div style="min-width:150px; text-align:center">
+      <button (click)="pp.close()" class="btn btn-success btn-sm">
+        <i class="fa fa-times"></i>
+      </button>
+      <button (click)="deleteRecord(currentItem)" class="btn btn-danger btn-sm">
+        <i class="fa fa-check"></i>
+      </button>
+
+    </div>
+  </ng-template>
+</div>
+
+<div *ngIf="showRestaurantSub">
+  <ol style="margin-top:10px;" class="breadcrumb">
+    <li>
+      <button class="btn btn-primary" (click)="showViewHandler('category')"><i class="fa fa-arrow-left"></i></button>
+      <h3 style="display:inline; margin-left:10px;"> {{capitalCase(currentItem.type)}} / {{currentItem.name}}</h3>
+    </li>
+  </ol>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>
+          <button type="button" class="btn btn-danger btn-lg" (click)="openModalRestaurant(templateRestaurant, item, true)">
+            <i class="fa fa-plus"></i>
+          </button>
+        </td>
+        <td class="font-weight-bold">Name</td>
+        <td class="font-weight-bold">Description</td>
+        <td class="font-weight-bold">Price</td>
+        <td class="font-weight-bold">Promotion</td>
+        <td class="font-weight-bold">Image</td>
+        <td class="font-weight-bold">Thumnail</td>
+        <td class="font-weight-bold">Sizes</td>
+        <td class="font-weight-bold">Options</td>
+      </tr>
+      <tr *ngFor="let sub of subs">
+        <td class='text-xs-center'>
+          <div ngbDropdown>
+            <button class="btn btn-primary btn-sm" id="options" ngbDropdownToggle (click)="currentItemRestaurant = sub;">
+              <i class="fa fa-cog"></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="options">
+              <a class="dropdown-item" data-toggle="modal" (click)="openModalRestaurant(templateRestaurant, sub, false)">
+                <i class="fa fa-pencil"></i> Edit
+              </a>
+              <a class="dropdown-item"
+                 [ngbPopover]="confirmationRestaurant"
+                 #s="ngbPopover"
+                 triggers="manual"
+                 (click)="s.open(); ss = s;"
+                 placement="right"
+                 popoverTitle="Are you sure?">
+                <i class="fa fa-trash-o"></i> Delete
+              </a>
+            </div>
+          </div>
+
+        </td>
+        <td style="max-width:200px;"> {{ sub.name }} </td>
+        <td style="max-width:200px;"> {{ sub.description }} </td>
+        <td style="max-width:200px;"> {{ sub.price }} </td>
+        <td style="max-width:200px;"> {{ sub.promotion }} </td>
+        <td style="max-width:200px;overflow-x: scroll;"> {{ sub.imgSmall }} </td>
+        <td><a target="_blank" [href]="sub.imgSmall"> <img [src]="sub.imgSmall" width="100" onerror="this.src='./assets/no-image-found.jpg'" /> </a></td>
+        <td>  <span style="margin:5px;padding:5px;" class="badge badge-primary" *ngFor="let size of sub.size">{{ size.size }} </span></td>
+        <td>  <span style="margin:5px;padding:5px;" class="badge badge-primary" *ngFor="let opt of sub.options">{{ opt.name }} : ${{opt.price}} </span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Edit Modal Restaurant -->
+  <ng-template #templateRestaurant>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left" *ngIf="!adding">Edit Restaurant</h4>
+      <h4 class="modal-title pull-left" *ngIf="adding">Add New Restaurant</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefRestaurant.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #heroForm="ngForm">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" [(ngModel)]='modelRestaurant.name' name='name'>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" [(ngModel)]='modelRestaurant.description' name="description" style="width:100%; height:215px;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Price</label>
+          <input type="text" class="form-control" [(ngModel)]="modelRestaurant.price" name="price">
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="modelRestaurant.discount" name="discount"> Show
+          </label>
+        </div>
+        <div class="form-group">
+          <label>Imagen</label>
+          <input type="text" class="form-control" [(ngModel)]='modelRestaurant.imgSmall' name='imgSmall'>
+          <img [src]="modelRestaurant.imgSmall" width="100" style="margin:20px;" onerror="this.src='./assets/no-image-found.jpg'" />
+        </div>
+        <div style="border: 1px solid #ccc;padding: 10px;" class="form-group">
+          <label>Size</label>
+          <input type="text" class="form-control" [(ngModel)]='tempSize' name='size'>
+
+          <button style="margin-top:5px;" type="button" class="btn btn-success" (click)="addSize(modelRestaurant)">Add</button>
+          <div style="margin-top:5px;">
+            <span style="margin:5px;padding:5px;" class="badge badge-primary" *ngFor="let s of modelRestaurant.size; let i = index">{{s.size}}  <span (click)="removeExtra(modelRestaurant.size, i)">x</span> </span>
+          </div>
+        </div>
+
+        <div style="border: 1px solid #ccc;padding: 10px;" class="form-group">
+          <label>Options</label>
+          <input type="text" class="form-control" [(ngModel)]='tempName' placeholder="name" name='options'>
+          <input type="text" class="form-control" [(ngModel)]='tempPrice' placeholder="price" name='options' style="margin-top:5px;">
+
+          <button style="margin-top:5px;" type="button" class="btn btn-success" (click)="addOption(modelRestaurant)">Add</button>
+          <div style="margin-top:5px;">
+            <span style="margin:5px;padding:5px;" class="badge badge-primary" *ngFor="let r of modelRestaurant.options; let i = index">{{r.name}} - {{r.price}}  <span (click)="removeExtra(modelRestaurant.options, i)">x</span> </span>
+          </div>
+        </div>
+
+        <button type="submit" (click)="editOrAddRecordRestaurant(modelRestaurant, false)" *ngIf="!adding" class="btn btn-primary float-right">Save</button>
+        <button type="submit" (click)="editOrAddRecordRestaurant(modelRestaurant, true)" *ngIf="adding" class="btn btn-success float-right">Add</button>
+      </form>
+    </div>
+  </ng-template>
+
+  <!-- Confirmation Delete Modal -->
+  <ng-template #confirmationRestaurant>
+    <div style="min-width:150px; text-align:center">
+      <button (click)="ss.close()" class="btn btn-success btn-sm">
+        <i class="fa fa-times"></i>
+      </button>
+      <button (click)="deleteRecordRestaurant(currentItemRestaurant)" class="btn btn-danger btn-sm">
+        <i class="fa fa-check"></i>
+      </button>
+
+    </div>
+  </ng-template>
+</div>
+
+<loading *ngIf="isLoading"></loading>

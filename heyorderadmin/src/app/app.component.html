@@ -1,0 +1,149 @@
+
+<div *ngIf="auth.user | async; then authenticated else guest">
+  <!-- template will replace this div -->
+</div>
+<!-- User NOT logged in -->
+<ng-template #guest>
+  <div>
+    <div class="login-box">
+      <div class="login-header"> </div>
+      <div class="login-body">
+        <h3>Welcome to the Admin dashboard</h3>
+
+        <div *ngIf="!!isAdminRegistered && !recover">
+
+          <p>Login to get started...</p>
+          <div class="row">
+
+            <div class="col-7">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Email" [(ngModel)]='email' name='email'>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" [(ngModel)]='pass' name='pass'>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <button type="button" class="btn btn-primary " (click)="auth.loginWithEmailAndPass(email, pass)">Login</button>
+                   </div>
+                  <div class="col">
+                    <button type="button" class="btn btn-secondary " (click)="recover = true">Recover Password</button>
+                  </div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-5">
+              <button class="btn btn-danger btn-lg" (click)="auth.googleLogin()">
+                <i class="fa fa-google"></i> Login with Google
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="!isAdminRegistered">
+          <p>Register Admin account</p>
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Fullname" [(ngModel)]='name' required name='name'>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Email" [(ngModel)]='email' required name='email'>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" [(ngModel)]='pass' required name='pass'>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Profile pic url (optional)" [(ngModel)]='pic' name='pic'>
+              </div>
+              <div class="form-group">
+                <button type="button" [disabled]="!name || !email || !pass" class="btn btn-primary btn-lg" (click)="auth.registerWithEmailAndPass(name, email, pass, pic, true)">Register</button>
+              </div>
+            </div>
+
+            <div class="col">
+              <button class="btn btn-danger btn-lg" (click)="auth.registerUserWithGoogle(true)">
+                <i class="fa fa-google"></i> Register with Google
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div *ngIf="!!recover">
+          <p>Recover password</p>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Email" [(ngModel)]='email' name='email'>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <button type="button" class="btn btn-primary" [disabled]="!email" (click)="auth.resetPassword(email)">Recover Password</button>
+            </div>
+            <div class="col-8">
+              <button type="button" class="btn btn-secondary" (click)="recover = false">Login</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin:30px;">
+          <ngb-alert *ngIf="!!auth.successEmailSent" (click)="auth.successEmailSent = false" [dismissible]="true" type="success">
+            <strong>Success!</strong> Email sent successfully
+          </ngb-alert>
+          <ngb-alert *ngIf="auth.showUnauthorizedAlert" (click)="closeAlert()" [dismissible]="true" type="danger">
+            <strong>Alert!</strong> {{ !auth.errorMsg? 'Permission denied.': auth.errorMsg}}
+          </ngb-alert>
+        </div>
+        </div>
+    </div>
+</div>
+</ng-template>
+
+
+
+
+
+<!-- User logged in -->
+<ng-template #authenticated>
+  <nav style="background-color: #f8f8f8;border-color: #e7e7e7;" class="navbar navbar-default" *ngIf="auth.user | async as user">
+    <div class="container-fluid">
+      <div class="navbar-header" style="    margin-right: 0;margin-left: auto;">
+        <p style="margin:10px;" class="navbar-text">Howdy, {{ user.displayName }}</p>
+        <span class="navbar-brand  navbar-right">
+          <img [src]="user.photoURL" style="width:30px;"  onerror="this.src='./assets/no-image-found.jpg'">
+        </span>
+
+        <button type="button"  (click)="auth.signOut()" class="btn btn-default navbar-btn navbar-right">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!--The content below is only a placeholder and can be replaced.-->
+  <div style="text-align:center">
+
+    <h1 style="padding:30px;">
+      Admin Dashboard
+    </h1>
+  </div>
+  <div class='container-fluid p-10'>
+    <div class='row'>
+      <div class='col-12'>
+        <app-list>
+        </app-list>
+      </div>
+    </div>
+  </div>
+
+
+
+</ng-template>
+

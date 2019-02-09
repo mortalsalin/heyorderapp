@@ -1,0 +1,84 @@
+{
+  "name": "HeyOrder",
+  "version": "0.0.1",
+  "author": "HeyOrderApp",
+  "homepage": "http://heyorder.com/",
+  "private": true,
+  "scripts": {
+    "clean": "ionic-app-scripts clean",
+    "build": "ionic-app-scripts build",
+    "lint": "ionic-app-scripts lint",
+    "ionic:build": "ionic-app-scripts build",
+    "ionic:serve": "ionic-app-scripts serve"
+  },
+  "dependencies": {
+    "@angular/animations": "5.2.9",
+    "@angular/common": "5.2.9",
+    "@angular/compiler": "5.2.9",
+    "@angular/compiler-cli": "5.2.9",
+    "@angular/core": "5.2.9",
+    "@angular/forms": "5.2.9",
+    "@angular/http": "5.2.9",
+    "@angular/platform-browser": "5.2.9",
+    "@angular/platform-browser-dynamic": "5.2.9",
+    "@ionic-native/call-number": "^4.5.3",
+    "@ionic-native/core": "4.5.3",
+    "@ionic-native/facebook": "^4.5.3",
+    "@ionic-native/geolocation": "^5.0.0",
+    "@ionic-native/google-plus": "^4.5.3",
+    "@ionic-native/paypal": "^4.5.3",
+    "@ionic-native/push": "^4.5.3",
+    "@ionic-native/splash-screen": "4.5.3",
+    "@ionic-native/status-bar": "4.5.3",
+    "@ionic-native/stripe": "^5.0.0",
+    "@ionic/storage": "2.1.3",
+    "@types/stripe": "^6.19.7",
+    "angularfire2": "^5.0.0-rc.6",
+    "call-number": "^1.0.1",
+    "card.io.cordova.mobilesdk": "^2.1.0",
+    "com.paypal.cordova.mobilesdk": "^3.5.0",
+    "cordova-android": "6.3.0",
+    "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-facebook4": "^1.9.1",
+    "cordova-plugin-googleplus": "^5.2.1",
+    "cordova-plugin-ionic-keyboard": "^2.1.3",
+    "cordova-plugin-ionic-webview": "^1.2.1",
+    "cordova-plugin-splashscreen": "^5.0.2",
+    "cordova-plugin-stripe": "1.5.3",
+    "cordova-plugin-whitelist": "^1.3.3",
+    "firebase": "^4.11.0",
+    "ionic-angular": "3.9.2",
+    "ionic-gallery-modal": "^0.1.1",
+    "ionicons": "3.0.0",
+    "moment": "^2.21.0",
+    "mx.ferreyra.callnumber": "0.0.2",
+    "phonegap-plugin-push": "^2.2.3",
+    "rxjs": "5.5.7",
+    "sw-toolbox": "3.6.0",
+    "zone.js": "0.8.20"
+  },
+  "devDependencies": {
+    "@ionic/app-scripts": "3.1.8",
+    "typescript": "~2.6.2"
+  },
+  "description": "HeyOrder",
+  "cordova": {
+    "plugins": {
+      "mx.ferreyra.callnumber": {},
+      "com.paypal.cordova.mobilesdk": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-keyboard": {},
+      "phonegap-plugin-push": {
+        "FCM_VERSION": "11.6.2"
+      },
+      "call-number": {},
+      "cordova-plugin-stripe": {}
+    },
+    "platforms": [
+      "android"
+    ]
+  }
+}

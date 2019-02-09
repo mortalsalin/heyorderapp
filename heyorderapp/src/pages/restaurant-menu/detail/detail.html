@@ -1,0 +1,86 @@
+
+<ion-header>
+    <ion-navbar color="pink">
+        <button ion-button menuToggle color="light">
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title color="light" >{{prodName}}</ion-title>
+        <ion-buttons right>
+            <button ion-button icon-only (click)="buyNow()">
+                <ion-badge *ngIf="totalItemsInCart" color="amber">{{ totalItemsInCart }}</ion-badge>
+                <ion-icon name="md-cart"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content  no-padding  class="content" (ionScroll)="onScroll($event)" [class.transition]="transition" >
+
+   <div class="product-header">
+  <div (click)="fullscreenImage(item?.imgSmall)" class="product-header" [ngStyle]="{'background-image': 'url(' + item?.imgSmall + ')'}">
+        <h2 class="product-name "> {{item?.name}}</h2>
+        <div class="product-price ">R${{item?.price}}</div>
+
+  </div>
+    <ion-fab bottom right edge class="hello pop-in">
+        <button ion-fab *ngIf="!favorite" color="amber" (click)="addToFav()"><ion-icon name="ios-heart-outline"></ion-icon></button>
+        <button ion-fab *ngIf="favorite" color="amber" (click)="addToFav()"><ion-icon name="ios-heart"></ion-icon></button>
+    </ion-fab>
+    </div>
+  <ion-card>
+      <ion-card-header>
+        Descrição
+      </ion-card-header>
+      <ion-card-content>
+        <div padding [innerHTML]="item?.description" ></div>
+      </ion-card-content>
+  </ion-card>
+
+  <ion-card  *ngIf="itemOptionArray.length > 0">
+    <ion-card-header>
+      Opções
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let itemOption of  itemOptionArray">
+          <ion-label>{{itemOption.name}}</ion-label>
+          <ion-checkbox  [(ngModel)]="itemOption.model" color="green"></ion-checkbox>
+          <ion-note item-right color="primary" margin-right>
+              ${{itemOption.price}}
+          </ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card  *ngIf="itemSizeArray.length > 0">
+      <ion-card-header>
+        Tamanho
+      </ion-card-header>
+      <ion-list >
+        <ion-item *ngFor="let itemSize of  itemSizeArray">
+            <ion-label>{{itemSize.size}}</ion-label>
+            <ion-checkbox [(ngModel)]="itemSize.model" color="green" ></ion-checkbox>
+        </ion-item>
+      </ion-list>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer no-border no-padding>
+    <ion-toolbar color="grey" no-padding>
+        <ion-row no-padding>
+            <ion-col style="border-right: 1px solid #ccc;" no-padding text-center>
+                <button ion-button clear icon-left (click)="addToCart('bottom')" color="black" style="background-color:white; border:1px solid #ccc">
+                    <ion-icon name="ios-cart"></ion-icon>
+                    Adicionar ao pedido
+                </button>
+            </ion-col>
+            <ion-col no-padding text-center>
+                <button ion-button clear icon-left (click)="buyNow('bottom')" color="white" style="background-color:#ff9100">
+                    <ion-icon name="ios-card"></ion-icon>
+                    Visualizar Pedido
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

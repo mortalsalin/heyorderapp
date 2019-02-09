@@ -1,0 +1,54 @@
+
+<ion-header no-border>
+  <ion-navbar color="pink">
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="login-container">
+    <!--*********** Form ***********-->
+
+    <form [formGroup]="registerForm" (submit)="registerUser()" novalidate>
+
+      <ion-item class="border-bottom">
+        <ion-input tappable formControlName="profileName" type="text" placeholder="Your name" [class.invalid]="!registerForm.controls.profileName.valid && registerForm.controls.profileName.dirty"></ion-input>
+      </ion-item>
+
+      <ion-item class="border-bottom">
+        <ion-input tappable formControlName="email" type="email" placeholder="Your email address" [class.invalid]="!registerForm.controls.email.valid && registerForm.controls.email.dirty"></ion-input>
+      </ion-item>
+
+      <ion-item class="border-bottom">
+        <ion-input tappable formControlName="phone"  type="tel" placeholder="Phone number" [class.invalid]="!registerForm.controls.phone.valid && registerForm.controls.phone.dirty"></ion-input>
+      </ion-item>
+
+      <ion-item class="border-bottom">
+        <ion-input tappable formControlName="password" type="password" placeholder="Your password" [class.invalid]="!registerForm.controls.password.valid && registerForm.controls.password.dirty"></ion-input>
+      </ion-item>
+
+        <ion-item class="border-bottom">
+            <ion-input tappable formControlName="pic" type="url" placeholder="Profile Picture url" [class.invalid]="!registerForm.controls.phone.valid && registerForm.controls.phone.dirty"></ion-input>
+        </ion-item>
+
+
+
+      <ion-item class="error-message">
+        <p *ngIf="!registerForm.controls.profileName.valid  &&
+                registerForm.controls.profileName.dirty">*Informe um nome.</p>
+        <p *ngIf="!registerForm.controls.email.valid  &&
+                registerForm.controls.email.dirty">*Informe um email.</p>
+        <p *ngIf="!registerForm.controls.phone.valid  &&
+                registerForm.controls.phone.dirty">*Informe um telefone.</p>
+        <p *ngIf="!registerForm.controls.password.valid  &&
+        registerForm.controls.password.dirty">*A senha precisa conter mais de 6 caracteres</p>
+      </ion-item>
+        <button ion-button full type="submit" color="blue2">
+            Criar conta
+        </button>
+    </form>
+  </div>
+</ion-content>
+<ion-footer color="blue2">
+
+</ion-footer>

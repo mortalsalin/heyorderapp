@@ -1,0 +1,111 @@
+<div style="margin:20px 0px 20px 0px;" class="alert alert-danger" role="alert"><strong>Warning:</strong> If you restore the default data, it will override the changes made to the bd</div>
+
+<div class="card">
+  <div class="card-header">
+    Manage Data
+  </div>
+  <div class="card-body">
+
+
+    <form class="form-inline">
+      <div class="form-group" style="margin:10px 0px 10px 10px;">
+        <label>Select a section: </label>
+      </div>
+      <div class="form-group" style="margin:20px;">
+        <select name="type" [(ngModel)]="selectedKey" class="form-control" style="width:200px">
+          <option value="all" selected="selected">All</option>
+          <option *ngFor="let c of keys; let i = index" [ngValue]="c">{{c}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <div style="margin: 20px;">
+
+          <button class="btn btn-default"
+                  [ngbPopover]="confirmation"
+                  #p="ngbPopover"
+                  triggers="manual"
+                  (click)="p.open(); pp = p;"
+                  placement="bottom"
+                  popoverTitle="Are you sure?">
+
+            Restore Primary default data <span class="badge badge-light">1</span>
+          </button>
+
+        </div>
+
+      </div>
+      <div class="form-group">
+        <div style="margin: 20px;">
+
+          <button class="btn btn-default"
+                  [ngbPopover]="subcategories"
+                  #t="ngbPopover"
+                  triggers="manual"
+                  (click)="t.open(); tt = t;"
+                  placement="bottom"
+                  popoverTitle="Are you sure?">
+
+            Restore sub-items <span class="badge badge-light">2</span>
+          </button>
+
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+
+
+<div style="margin-top:20px;" class="card">
+  <div class="card-header">
+    Set ionic running url
+  </div>
+  <div class="card-body">
+    <div class="form-group" style="max-width:600px;">
+      <p class="card-text">Enter the url where you are hosting/running the ionic project that comes with this Admin Dashboard</p>
+      <input type="url" class="form-control" [(ngModel)]="ionicurl" style="margin-bottom:20px"  pattern="https?://.+" required />
+      <button [attr.disabled]="ionicurl == ''?'': null" class="btn btn-primary" (click)="saveUrl()">Save Url</button>
+    </div>
+
+    <div *ngIf="saveSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Success!</strong> Url successfully saved to the database.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="saveSuccess = false;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- Confirmation Restore data -->
+<ng-template #confirmation>
+  <div style="min-width:150px; text-align:center">
+    <button (click)="pp.close()" class="btn btn-success btn-sm">
+      <i class="fa fa-times"></i>
+    </button>
+    <button (click)="restoreData(); pp.close()" class="btn btn-danger btn-sm">
+      <i class="fa fa-check"></i>
+    </button>
+
+  </div>
+</ng-template>
+
+
+<!-- Confirmation Restore subcategories -->
+<ng-template #subcategories>
+  <div style="min-width:150px; text-align:center">
+    <button (click)="tt.close()" class="btn btn-success btn-sm">
+      <i class="fa fa-times"></i>
+    </button>
+    <button (click)="restoreSubCategories(); tt.close()" class="btn btn-danger btn-sm">
+      <i class="fa fa-check"></i>
+    </button>
+
+  </div>
+</ng-template>
+
+<loading *ngIf="isLoading"></loading>

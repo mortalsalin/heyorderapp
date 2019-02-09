@@ -1,0 +1,38 @@
+<div>
+  <div style="padding:50px">
+    <p>Register Admin account</p>
+    <div class="row">
+
+      <div class="col">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Fullname" [(ngModel)]='name' required name='name'>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Email" [(ngModel)]='email' required name='email'>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password" [(ngModel)]='pass' required name='pass'>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Profile pic url (optional)" [(ngModel)]='pic' name='pic'>
+        </div>
+        <div class="form-group">
+          <button type="button" [disabled]="!name || !email || !pass" class="btn btn-primary btn-lg" (click)="auth.registerWithEmailAndPass(name, email, pass, pic)">Register</button>
+        </div>
+      </div>
+
+      <div class="col">
+        <button class="btn btn-danger btn-lg" (click)="auth.registerUserWithGoogle()">
+          <i class="fa fa-google"></i> Register with Google
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <ngb-alert *ngIf="auth.showUnauthorizedAlert" (click)="closeAlert()" [dismissible]="true" type="danger">
+    <strong>Alert!</strong> {{ !auth.errorMsg? 'Permission denied.': auth.errorMsg}}
+  </ngb-alert>
+</div>
+
+
+<loading *ngIf="isLoading"></loading>

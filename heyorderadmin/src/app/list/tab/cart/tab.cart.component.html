@@ -1,0 +1,199 @@
+<div>
+  <form class="form-inline">
+    <div class="form-group" style="padding:10px; margin-top:30px;">
+      <select name="type" [(ngModel)]="selectedUser" class="form-control" (ngModelChange)="onTypeChange()" style="width:400px">
+        <option value="select a user" selected="selected">Select a user</option>
+        <option *ngFor="let c of userData; let i = index" [ngValue]="c.uid">{{c.fullname}}</option>
+      </select>
+    </div>
+    <div class="form-group" style="padding:10px; margin-top:30px;">
+      <button class="btn btn-primary" (click)="loadData()">Refresh</button>
+    </div>
+  </form>
+
+
+  <div *ngIf="selectedUser != 'select a user'" class="user-profile-box">
+    <div class="row">
+      <div class="col-3">
+        Full Name:
+      </div>
+      <div class="col-9">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]='userProfile.fullname' name='fullname'>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        Email:
+      </div>
+      <div class="col-9">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]='userProfile.email' name='email'>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        Phone:
+      </div>
+      <div class="col-9">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]='userProfile.phone' name='phone'>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        Address:
+      </div>
+      <div class="col-9">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]='userProfile.address' name='address'>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        uid:
+      </div>
+      <div class="col-9">{{userProfile?.uid}} </div>
+    </div>
+    <div class="row">
+      <div class="col-9">
+
+      </div>
+      <div class="col-3">
+        <button type="button" class="btn btn-primary btn-lg" (click)="saveUserProfile()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:10px;" *ngIf="selectedUser != 'select a user'">
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn {{ current == 'oncart'? 'btn-primary': 'btn-secondary'}} " (click)="loadOnCart(); current='oncart'">Currently on cart</button>
+      <button type="button" class="btn  {{ current == 'history'? 'btn-primary': 'btn-secondary'}}" (click)="loadHistory(); current='history'">Items purchased</button>
+      <button type="button" class="btn  {{ current == 'processing'? 'btn-primary': 'btn-secondary'}}" (click)="loadProcessing(); current='processing'">Items processing</button>
+      <button type="button" class="btn  {{ current == 'delivered'? 'btn-primary': 'btn-secondary'}}" (click)="loadDelivered(); current='delivered'">Items delivered</button>
+    </div>
+  </div>
+
+  <table class="table table-striped" *ngIf="selectedUser != 'select a user'">
+    <tbody>
+      <tr>
+        <td></td>
+        <td class="font-weight-bold">Name</td>
+        <td class="font-weight-bold">Price</td>
+        <td class="font-weight-bold">Qty</td>
+        <td class="font-weight-bold">Type</td>
+        <td class="font-weight-bold">Sub Total</td>
+        <td class="font-weight-bold" style="max-width:200px;">Img</td>
+        <td class="font-weight-bold">Thumnail</td>
+        <td class="font-weight-bold">Extras</td>
+      </tr>
+      <tr *ngFor="let item of displayItems">
+        <td class='text-xs-center'>
+          <div ngbDropdown *ngIf="current=='history' || 'delivered' || 'processed'">
+            <button class="btn btn-primary btn-sm" id="options" ngbDropdownToggle (click)="currentItem = item;">
+              <i class="fa fa-cog"></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="options">
+
+              <a class="dropdown-item"
+                 [ngbPopover]="confirmation"
+                 #p="ngbPopover"
+                 triggers="manual"
+                 (click)="p.open(); pp = p;"
+                 placement="right"
+                 popoverTitle="Are you sure?">
+                <i class="fa fa-trash-o"></i> Delete
+              </a>
+
+              <a class="dropdown-item"
+                 [ngbPopover]="precessing"
+                 #g="ngbPopover"
+                 triggers="manual"
+                 (click)="g.open(); gg = g;"
+                 placement="right"
+                 popoverTitle="Are you sure?">
+                <i class="fa fa-cog"></i> Mark as Processing
+              </a>
+
+              <a class="dropdown-item"
+                 [ngbPopover]="delivered"
+                 #d="ngbPopover"
+                 triggers="manual"
+                 (click)="d.open(); dd = d;"
+                 placement="right"
+                 popoverTitle="Are you sure?">
+                <i class="fa fa-truck"></i> Mark as Delivered
+              </a>
+
+            </div>
+          </div>
+
+        </td>
+        <td> {{ item.name }} </td>
+        <td> {{ item.price }} </td>
+        <td> {{ item.qty }} </td>
+        <td> {{ item.type }} </td>
+        <td> {{ item.total }} </td>
+        <td style="max-width:200px;overflow-x: scroll;"> {{ item.img }} </td>
+        <td><a target="_blank" [href]="item.img"> <img [src]="item.img" width="100" onerror="this.src='./assets/no-image-found.jpg'" /> </a></td>
+        <td>
+          <span style="margin:5px;padding:5px;" class="badge badge-success" *ngFor="let opt of item.selectedOptions">{{opt.name}} - ${{opt.price}}</span>
+          <span style="margin:5px;padding:5px;" class="badge badge-primary" *ngFor="let size of item.selectedSize">{{size}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- Confirmation Delete Modal -->
+  <ng-template #confirmation>
+    <div style="min-width:150px; text-align:center">
+      <button (click)="pp.close()" class="btn btn-success btn-sm">
+        <i class="fa fa-times"></i>
+      </button>
+      <button (click)="deleteRecord(currentItem)" class="btn btn-danger btn-sm">
+        <i class="fa fa-check"></i>
+      </button>
+
+    </div>
+  </ng-template>
+
+  <!-- Confirmation precessing Modal -->
+  <ng-template #precessing>
+    <div style="min-width:150px; text-align:center">
+      <button (click)="gg.close()" class="btn btn-success btn-sm">
+        <i class="fa fa-times"></i>
+      </button>
+      <button (click)="MarkedAsProcessing(currentItem)" class="btn btn-danger btn-sm">
+        <i class="fa fa-check"></i>
+      </button>
+
+    </div>
+  </ng-template>
+
+  <!-- Confirmation delivered Modal -->
+  <ng-template #delivered>
+    <div style="min-width:150px; text-align:center">
+      <button (click)="dd.close()" class="btn btn-success btn-sm">
+        <i class="fa fa-times"></i>
+      </button>
+      <button (click)="MarkedAsDelivered(currentItem)" class="btn btn-danger btn-sm">
+        <i class="fa fa-check"></i>
+      </button>
+
+    </div>
+  </ng-template>
+</div>
+
+
+<loading *ngIf="isLoading"></loading>

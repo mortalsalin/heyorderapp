@@ -1,0 +1,316 @@
+
+
+<div>
+  <div class="row">
+  
+    <div class="col" style="max-width:900px; margin: 0 auto;">
+      <div class="form-group wide-popover" style="margin-top:30px;">
+        <button class="btn btn-primary btn-lg"
+                (click)="p.open(); pp = p; loadSavedNotificationData()"
+                [ngbPopover]="confirmation"
+                #p="ngbPopover"
+                triggers="manual"
+                placement="bottom"
+                popoverTitle="Saved campaigns">
+          Load saved campaign
+        </button>
+        <button class="btn btn-secondary btn-lg"
+                (click)="clearForm()">
+          Clear form
+        </button>
+      </div>
+    </div>
+   
+  </div>
+  <div class="row">
+    <div class="col" style="max-width:900px; margin:0 auto">
+      <form #myForm="ngForm" novalidate>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Campaign</h4>
+          
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-success" role="alert" *ngIf="success">
+            <strong>Success!</strong> {{status}}.
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="error">
+            <strong>Error!</strong> {{status}}.
+          </div>
+          <div class="row" style="margin-bottom:10px;">
+            <div class="col">
+              <div style="padding:3px; border:1px solid #ccc">
+                <button style="margin:10px;" type="button" class="btn btn-primary" (click)="openModal(template, e);">Add users, groups, topics</button>
+                <span style="margin:4px;padding:10px" class="badge badge-pill badge-info" *ngFor="let u of selectedUsers">{{u.name}}</span>
+                <span style="margin:4px;padding:10px" class="badge badge-pill badge-success" *ngFor="let u of selectedUsersGroup">{{u.name}}</span>
+                <span style="margin:4px;padding:10px" class="badge badge-pill badge-dark" *ngFor="let u of selectedChannels">{{u.name}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label>Campaign name (*)</label>
+                <input type="text" class="form-control" [(ngModel)]='model.name' name='name'>
+              </div>
+            </div>
+            <div class="col-4">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label>Notification Title (*)</label>
+                <input type="text" class="form-control" [(ngModel)]='model.title' name='title'>
+              </div>
+              <div class="form-group">
+                <label>Notification text</label>
+                <input type="text" class="form-control" [(ngModel)]='model.text' name='text'>
+              </div>
+            </div>
+            <div class="col-4">
+              <img src="./assets/push-notifications.png" style="position: absolute;top: -17px;right: 20px;" />
+            </div>
+          </div><div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label>Landing title</label>
+                <input type="text" class="form-control" [(ngModel)]='model.landingTitle' name='landingTitle'>
+              </div>
+              <div class="form-group">
+                <label>Landing Text</label>
+                <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="model.landingText" name="landingText" id="landingText" #landingText style="width:100%; height:415px;"></app-ngx-editor>
+                <!--<textarea class="form-control" [(ngModel)]='model.landingText' name="landingText" id="landingText" #landingText style="width:100%; height:215px;"></textarea>-->
+                <!--<div [class]="landingText.value.length > 1000? 'over-limit-danger': ''" style="text-align:right; padding-right:10px">{{landingText.value.length}} of 1000</div>-->
+              </div>
+            </div>
+            <div class="col-4">
+              <img src="./assets/notification-landing.png" style="position: absolute;top: 4px;right: 3px;width: 270px;" />
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col col-8">
+
+              <div class="form-group">
+                <label>Run Start Date</label>
+                <my-date-picker name="runStartDate" [options]="myDatePickerOptions" placeholder="mm/dd/yyyy"
+                                [(ngModel)]="model.runStartDate"></my-date-picker>
+              </div>
+
+              <div class="form-group">
+                <label>Run End Date</label>
+                <my-date-picker name="runEndDate" [options]="myDatePickerOptions" placeholder="mm/dd/yyyy"
+                                [(ngModel)]="model.runEndDate"></my-date-picker>
+              </div>
+
+
+
+            </div>
+            <div class="col col-4">
+
+            </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <div class="alert alert-danger" style="padding:5px;" *ngIf="!recipientSelected()">
+            *No user, group or topic selected
+          </div>
+          <div class="row float-right" style="position:relative; margin-bottom:20px">
+            <div class="col" style="display:flex; align-items:center;">
+
+
+            </div>
+            <div class="col">
+              <button type="button" (click)="saveNotification(model)" class="btn btn-primary" [disabled]="!model.title || !model.name">Save</button>
+            </div>
+            <div class="col">
+              <button type="button" (click)="sendNotification(model)" class="btn btn-success" [disabled]="!recipientSelected() || !model.title || !model.name">Send</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- Users Modal -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Users</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <span class="nav-link {{ !!userActive? 'active': ''}}" (click)="toggleTabs('users')">Users</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link {{ !!groupsActive? 'active': ''}}" (click)="toggleTabs('groups')">Groups</span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link {{ !!channelsActive? 'active': ''}}" (click)="toggleTabs('channels')">Topics</span>
+      </li>
+    </ul>
+
+    <div class="form-group" style="margin-top:30px;">
+      <button type="button" class="btn btn-success pull-right" aria-label="Close" (click)="modalRef.hide()">Done</button>
+    </div>
+    <div *ngIf="toggle == 'users'">
+      <div>
+        <div class="form-group" style="margin-top:30px;">
+          <input name="searchTerm" type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm" (ngModelChange)="search()" style="width:400px;">
+        </div>
+      </div>
+      <div style="max-height:650px; overflow-y:scroll">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <div style="text-align:center;">
+                  <input type="checkbox" class="" [(ngModel)]="userCheck" style="width:20px; height:20px;" (click)="selectAll();" />
+                </div>
+              </td>
+              <td class="font-weight-bold">Name</td>
+              <td class="font-weight-bold">Email</td>
+              <td class="font-weight-bold">Tocken</td>
+              <!--<td class="font-weight-bold" style="max-width:200px;">Img Bg</td>-->
+              <td class="font-weight-bold">Thumnail</td>
+            </tr>
+            <tr *ngFor="let user of items" (click)="user.checked? user.checked = false: user.checked = true; changed(user);">
+              <td class='text-xs-center'>
+                <div class="" style="text-align:center;">
+                  <input type="checkbox" class="" style="width:20px; height:20px;" [(ngModel)]="user.checked" />
+                </div>
+
+              </td>
+              <td> {{ user.name }} </td>
+              <td> {{ user.email}} </td>
+              <td style="max-width:300px;overflow-x: scroll;"> {{ user.pushTocken }} </td>
+              <td><a target="_blank" [href]="user.pic"> <img [src]="user.pic" width="100" onerror="this.src='./assets/no-image-found.jpg'" /> </a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="toggle == 'groups'">
+      <div class="form-group" style="margin-top:30px;">
+        <input name="groupSearchTerm" type="text" class="form-control" placeholder="Search" [(ngModel)]="groupSearchTerm" (ngModelChange)="searchGroups()" style="width:400px;">
+      </div>
+      <table class="table table-striped" style="max-height:650px; overflow-y:scroll">
+        <tbody>
+          <tr>
+            <td>
+              <div style="text-align:center;">
+                <input type="checkbox" [(ngModel)]="groupCheck" class="" style="width:20px; height:20px;" (click)="selectAllGroups();" />
+              </div>
+            </td>
+            <td class="font-weight-bold">Group Name</td>
+            <td class="font-weight-bold">Users</td>
+          </tr>
+          <tr *ngFor="let group of groups" (click)="group.checked? group.checked = false: group.checked = true; changedGroup();">
+            <td class='text-xs-center'>
+              <div class="" style="text-align:center;">
+                <input type="checkbox" class="" style="width:20px; height:20px;" [(ngModel)]="group.checked" (ngModelChange)="changedGroup(group)" />
+              </div>
+
+            </td>
+            <td style="max-width:100px;"> {{ group.name }} </td>
+            <td>
+              <span style="margin:4px;padding:10px" class="badge badge-pill badge-info" *ngFor="let u of group.users">{{u.name}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+    <div *ngIf="toggle == 'channels'">
+      <div class="form-group" style="margin-top:30px;">
+        <input name="channelSearchTerm" type="text" class="form-control" placeholder="Search" [(ngModel)]="channelSearchTerm" (ngModelChange)="searchChannels()" style="width:400px;">
+      </div>
+      <table class="table table-striped" style="max-height:650px; overflow-y:scroll">
+        <tbody>
+          <tr>
+            <td>
+            </td>
+            <td class="font-weight-bold">Topic name</td>
+          </tr>
+          <tr *ngFor="let channel of channels" (click)="channel.checked? channel.checked = false: channel.checked = true;  changedChannel(channel)">
+            <td class='text-xs-center'>
+              <div class="" style="text-align:center;">
+                <input type="checkbox" class="" style="width:20px; height:20px;" [(ngModel)]="channel.checked" />
+              </div>
+
+            </td>
+            <td style="max-width:100px;"> {{ channel.name }} </td>
+           
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+</ng-template>
+
+<!-- Confirmation list saved notifications Modal -->
+<ng-template #confirmation>
+  <div style="min-width:260px; ">
+    <i class="fa fa-times" (click)="pp.close()" style="position:absolute;right:5px;top:5px"></i>
+    <div style="overflow-y:scroll; max-height:290px;">
+  
+      <div style="margin-bottom:10px;">
+        <input name="searchTerm" type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTermSentNotifications" (ngModelChange)="searchSentNotifications()" style="width:100%">
+      </div>
+      <div *ngFor="let e of itemsSentNotifications">
+        <div class="row" style="padding: 5px; margin:2px; border: 1px solid #ccc;">
+          <div class="col col-7">
+            <div (click)="pp.close();loadModel(e);">{{e.name}}</div>
+          </div>
+
+          <div class="col col-4" (click)="pp.close();loadModel(e);">
+            <div *ngIf="!!e.runStartDate">Start: {{e.runStartDate.formatted}}</div>
+            <div *ngIf="!!e.runEndDate">Ends: {{e.runEndDate.formatted}}</div>
+            
+          </div>
+
+          <div class="col col-1 no-arrow">
+            <i class="fa fa-trash" style="color:red"
+               [ngbPopover]="delete"
+               #d="ngbPopover"
+               triggers="manual"
+               (click)="d.open(); dd = d; currentItem = e;"
+               placement="left"
+               popoverTitle="Delete campaign"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- Confirmation Delete Modal -->
+<ng-template #delete>
+  <div style="min-width:150px; text-align:center">
+    <button (click)="dd.close()" class="btn btn-success btn-sm">
+      <i class="fa fa-times"></i>
+    </button>
+    <button (click)="deleteCampaign(currentItem)" class="btn btn-danger btn-sm">
+      <i class="fa fa-check"></i>
+    </button>
+
+  </div>
+</ng-template>
+
+<loading *ngIf="isLoading"></loading>

@@ -1,0 +1,117 @@
+
+<ion-header>
+    <ion-navbar color="pink">
+        <button ion-button menuToggle color="light">
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title color="light">Menu</ion-title>
+
+        <ion-buttons right>
+            <button ion-button icon-only (click)="presentPopover($event)">
+                <ion-icon name="md-more"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+    <ion-content>
+        <div class="blury-background"></div>
+        <div padding>
+            <ion-card class="fadein-down" style="margin-bottom: 20px !important;">
+                <ion-card-content no-padding>
+                    <ion-row>
+                        <ion-col col-4 style="border-right:1px solid #ccc">
+                            <div padding  (click)="launchNavigation(restaurantInfo.lat,restaurantInfo.lng)">
+                                <ion-icon name="md-car" style="font-size: 3.2em;"></ion-icon>
+                                <div>4 km</div>
+                            </div>
+                        </ion-col>
+                        <ion-col col-8>
+                            <small>Local:</small>
+                            <h2><strong>Bar do Zé</strong> </h2>
+                            <div>{{restaurantInfo.address}}</div>
+                            <div style="color:green">Aberto hoje até as 01:00am</div>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+
+<!--*********** Menu View  ***********-->
+<div *ngIf="viewType==='Menu'" >
+
+
+    <ion-card tappable class="card-list wave" style="margin-bottom: 20px !important; border-radius:5px;" *ngFor="let category of categories" (click)="openList(category)">
+        <ion-card-header no-padding class="header-card"><strong class="card-list-title"> {{category.name}}</strong> </ion-card-header>
+        <div class="card-list-bg" [ngStyle]="{'background-image': 'url(' + category.imgBg+ ')'}">
+
+        </div>
+    </ion-card>
+</div>
+</div>
+<!--*********** Promotion View  ***********-->
+<div *ngIf="viewType==='Promotion'">
+    <ion-grid>
+        <ion-row wrap>
+            <ion-col col-6 tappable *ngFor="let item of items" (click)="goToDetail(item)" color="gray">
+
+                <ion-card class="thumbnail ta-da">
+                    <div class="thumbnail-bg" [ngStyle]="{'background-image': 'url(' + item.imgSmall+ ')'}">
+                        <div class="thumbnail-title"><span style="white-space:normal">{{item.name}}</span> <ion-badge color="pink">$ {{item.price}}</ion-badge></div>
+                    </div>
+
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>
+
+
+<!--*********** About View  ***********-->
+<div *ngIf="viewType==='About'">
+    <!--*********** Static map  ***********-->
+    <ion-card class="wave">
+        <ion-card-header>
+            Mapa
+        </ion-card-header>
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurantInfo.lat}},{{restaurantInfo.lng}}&zoom=15&scale=2&size=300x150&maptype=roadmap&format=png&visual_refresh=true&markers=color:0xff0000%7Clabel:%7C{{restaurantInfo.lat}},{{restaurantInfo.lng}}"
+             onerror="this.src='./assets/no-maps.png';" />
+        <ion-row>
+            <ion-col center text-center>
+                <button ion-button icon-left clear (click)="showMap()">
+                    <div>Explorar </div>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <!--*********** Contact  ***********-->
+    <ion-card>
+        <div class="info">
+            <ion-list no-lines>
+                <ion-item>
+                    <ion-icon name="ios-globe-outline" item-left color="darkGray"></ion-icon>
+                    <a href="http://{{restaurantInfo.web}}">{{restaurantInfo.web}}</a>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="ios-call-outline" item-left color="darkGray"></ion-icon>
+                    <span (click)="MakeCall(restaurantInfo.phone)">{{restaurantInfo.phone}}</span>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="ios-pin-outline" item-left color="darkGray"></ion-icon>
+                    <span (click)="launchNavigation(restaurantInfo.lat,restaurantInfo.lng)">{{restaurantInfo.address}}</span>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="ios-map-outline" item-left color="darkGray"></ion-icon>
+                    <span (click)="launchNavigation(restaurantInfo.lat,restaurantInfo.lng)">Gps: {{restaurantInfo.lat}},{{restaurantInfo.lng}}</span>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="ios-navigate-outline" item-left color="darkGray"></ion-icon>
+                    <span (click)="launchNavigation(restaurantInfo.lat,restaurantInfo.lng)">{{restaurantInfo.location}}</span>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-card>
+    <!--     -->
+
+</div>
+
+</ion-content>

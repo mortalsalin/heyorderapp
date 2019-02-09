@@ -1,0 +1,59 @@
+<ion-header no-border>
+  <ion-navbar color="pink">
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="login-container">
+    <!--*********** Form ***********-->
+    <form [formGroup]="loginForm" (submit)="login()" novalidate>
+      <ion-item class="border-bottom">
+        <ion-input tappable color="light" #email type="email" placeholder="Email" formControlName="email" [class.invalid]="!loginForm.controls.email.valid &&loginForm.controls.email.dirty">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="border-bottom">
+        <ion-input tappable #password type="password" placeholder="password" formControlName="password" [class.invalid]="!loginForm.controls.password.valid &&loginForm.controls.password.dirty">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="error-message" *ngIf="(!loginForm.controls.email.valid  &&
+                loginForm.controls.email.dirty) || (!loginForm.controls.password.valid  &&
+                loginForm.controls.password.dirty)">
+        <p>*Por favor informe um email válido.</p>
+        <p>*A senha precisa conter no mínimo 6 caracteres</p>
+      </ion-item>
+
+      <div class="submit-box">
+        <button ion-button block type="submit" color="light">Log in</button>
+        <div margin-top>
+          <a color="light" (click)="createAccount()">
+            Criar uma nova conta
+          </a>
+        </div>
+        <div margin-top>
+          <a color="light" (click)="recover()">
+            Esqueceu a senha?
+          </a>
+        </div>
+
+      </div>
+    </form>
+
+    <div padding>
+      <button ion-button block color="danger" (click)="loginWithGooglePlus()">
+        <ion-icon name="logo-googleplus"> </ion-icon>
+        &nbsp;Login com o Google Plus
+      </button>
+      <p></p>
+      <button ion-button block color="default" (click)="loginWithFb()">
+        <ion-icon name="logo-facebook"> </ion-icon>
+        &nbsp;Login com Facebook
+      </button>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer>
+</ion-footer>
