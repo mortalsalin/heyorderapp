@@ -32,22 +32,15 @@ export class LoginPage {
       this.presentAlert('Usuário ou senha inválido(s)!')
       console.log("error");
     } else {
-      let loadingPopup = this.loadingCtrl.create({
-        spinner: 'crescent',
-        content: ''
-      });
-      loadingPopup.present();
+
 
       this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password)
         .then(authData => {
           console.log("Auth pass");
-          loadingPopup.dismiss();
           this.navCtrl.setRoot('AfterLoginPage', { data: authData });
         }, error => {
           var errorMessage: string = error.message;
-          loadingPopup.dismiss().then(() => {
-            this.presentAlert(errorMessage)
-          });
+          this.presentAlert(errorMessage);
         });
     }
   }

@@ -38,12 +38,6 @@ export class RestaurantDetailPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public afDB: AngularFireDatabase, public ref: ChangeDetectorRef,
     private toastCtrl: ToastController, public db: DatabaseProvider, public modalCtrl: ModalController, public afAuth: AngularFireAuth, public alertCtrl: AlertController) {
 
-    let loadingPopup = this.loadingCtrl.create({
-      spinner: 'crescent',
-      content: ''
-    });
-    loadingPopup.present();
-
     this.itemId = this.navParams.get('itemId');
     this.subDoc = this.navParams.get('subDoc');
     this.prodName = this.navParams.get('prodName');
@@ -74,7 +68,6 @@ export class RestaurantDetailPage {
           that.itemSize = <FirebaseListObservable<any>>Observable.of(e.size);
           that.itemSizeArray = e.size || [];
         }
-        loadingPopup.dismiss()
       });
 
     this.getTotalItemsOnCart();

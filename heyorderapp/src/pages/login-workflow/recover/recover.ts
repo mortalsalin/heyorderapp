@@ -25,19 +25,11 @@ export class RecoverPage {
     if (!this.resetPasswordForm.valid) {
       this.presentAlert("Form is invalid");
     } else {
-
-      let loadingPopup = this.loadingCtrl.create({
-        spinner: 'crescent',
-        content: ''
-      });
-      loadingPopup.present();
       this.authData.resetPassword(this.resetPasswordForm.value.email)
       .then((user) => {
-          loadingPopup.dismiss();
           this.presentAlert("Foi enviado um link em seu email para resetar a senha");
           this.nav.push('LoginPage');
       }, (error) => {
-          loadingPopup.dismiss();
           var errorMessage: string = error.message;
           this.presentAlert(errorMessage);
       });

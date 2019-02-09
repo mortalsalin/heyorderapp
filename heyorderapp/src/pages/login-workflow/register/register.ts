@@ -35,13 +35,6 @@ export class RegisterPage {
       console.log(this.registerForm.value);
       this.presentAlert("Dados inválidos");
     } else {
-
-      let loadingPopup = this.loadingCtrl.create({
-        spinner: 'crescent',
-        content: 'Creating..'
-      });
-      loadingPopup.present();
-
       this.authData.registerUser(
           this.registerForm.value.profileName,
           this.registerForm.value.email,
@@ -49,11 +42,9 @@ export class RegisterPage {
           this.registerForm.value.phone,
           this.registerForm.value.pic)
       .then(() => {
-        loadingPopup.dismiss();
         this.nav.setRoot('AfterLoginPage');
       }, (error) => {
          var errorMessage: string = error.message;
-          loadingPopup.dismiss();
           this.presentAlert(errorMessage);
       });
 
